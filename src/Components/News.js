@@ -32,21 +32,26 @@ export default class News extends Component {
   }
 
   updateNews= async ()=>{
+    this.props.setProgress(10);
     const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=0d5e789c790247199b9152d13f945bd9&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     this.setState({
       loading: true
     })
     // fetching url using fetch() API
     let data = await fetch(url);
-
+    this.props.setProgress(30);
     // converting the fetched data into json format
     let parsedData = await data.json();
     // setting the state of "articles" as parsedData
+    this.props.setProgress(70);
     this.setState({ 
       articles: parsedData.articles, 
       totalResults: parsedData.totalResults,
       loading: false 
     });
+
+    this.props.setProgress(100);
+
   }
 
   async componentDidMount() {
